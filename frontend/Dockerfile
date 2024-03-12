@@ -1,0 +1,7 @@
+FROM node:18
+WORKDIR /
+COPY . /
+ENV REACT_APP_HS_URL $REACT_APP_HS_URL
+ENV REACT_APP_PS_URL $REACT_APP_PS_URL
+RUN npm install
+CMD [ "npm", "run", "start" ]

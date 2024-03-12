@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-hs-mern-cy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-hs-mern-cy
+  template:
+    metadata:
+      labels:
+        app: backend-hs-mern-cy
+    spec:
+      containers:
+      - name: hello-microservice
+        image: asia-southeast1-docker.pkg.dev/academic-notch-413206/hello/hello:latest
+        ports:
+        - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloservice-be-service
+spec:
+  selector:
+    app: backend-hs-mern-cy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3001
+  type: LoadBalancer

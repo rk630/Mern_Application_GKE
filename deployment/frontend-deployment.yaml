@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-mern-cy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-mern-cy
+  template:
+    metadata:
+      labels:
+        app: frontend-mern-cy
+    spec:
+      containers:
+        - name: frontend-microservice
+          image: asia-southeast1-docker.pkg.dev/academic-notch-413206/frontend/frontend:latest
+          ports:
+            - containerPort: 3000  
+          env:
+            - name: REACT_APP_HS_URL
+              value: "http://35.187.248.65/"
+            - name: REACT_APP_PS_URL
+              value: "http://34.87.49.213/fetchuser"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend-mern-cy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
